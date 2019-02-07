@@ -307,3 +307,22 @@ class AutoEmptyExtension(object):
         if not hasattr(cls, 'instance') or not cls.instance:
             cls.instance = object.__new__(cls)
         return cls.instance
+
+
+def protocol_name_to_tuple(name):
+    names = {"sslv2": (0, 2),
+             "ssl2": (0, 2),
+             "sslv3": (3, 0),
+             "ssl3": (3, 0),
+             "tlsv1.0": (3, 1),
+             "tls1.0": (3, 1),
+             "tlsv1.1": (3, 2),
+             "tls1.1": (3, 2),
+             "tlsv1.2": (3, 3),
+             "tls1.2": (3, 3),
+             "tlsv1.3": (3, 4),
+             "tls1.3": (3, 4)}
+    val = names.get(name.lower())
+    if val:
+        return val
+    raise ValueError("Unrecognised protocol name: {0}".format(name))

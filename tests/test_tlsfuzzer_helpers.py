@@ -15,7 +15,7 @@ except ImportError:
 
 from tlsfuzzer.helpers import sig_algs_to_ids, key_share_gen, psk_ext_gen, \
         flexible_getattr, psk_session_ext_gen, key_share_ext_gen, \
-        uniqueness_check, AutoEmptyExtension
+        uniqueness_check, AutoEmptyExtension, protocol_name_to_tuple
 from tlsfuzzer.runner import ConnectionState
 from tlslite.extensions import KeyShareEntry, PreSharedKeyExtension, \
         PskIdentity, ClientKeyShareExtension
@@ -242,3 +242,15 @@ class TestAutoEmptyExtension(unittest.TestCase):
         var = AutoEmptyExtension()
 
         self.assertIsInstance(var, AutoEmptyExtension)
+
+
+class TestProtocolNameToTuple(unittest.TestCase):
+    def test_tls(self):
+        self.assertEqual((3, 1), protocol_name_to_tuple("TLSv1.0"))
+
+    def test_ssl(self):
+        self.assertEqual((3, 0), protocol_name_to_tuple("SSL3"))
+
+    def test_unknown(self):
+        with self.assertRaises(ValueError):
+            protocol_name_to_tuple("SSL3.1")
