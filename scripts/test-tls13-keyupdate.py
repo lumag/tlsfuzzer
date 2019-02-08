@@ -390,7 +390,7 @@ def main():
 
     node = node.add_child(ExpectAlert())
     node.next_sibling = ExpectClose()
-    conversations["app data splited, conversation with KeyUpdate msg"] = conversation
+    conversations["app data split, conversation with KeyUpdate msg"] = conversation
 
     conversation = Connect(host, port)
     node = conversation
